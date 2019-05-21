@@ -142,7 +142,6 @@ def send_static(path):
 
 @app.route('/signin', methods=['POST'])
 def signin():
-    email = request.form['email']
     ssid = request.form['ssid']
     password = request.form['password']
 
@@ -150,7 +149,7 @@ def signin():
     if password == "":
         pwd = "key_mgmt=NONE" # If open AP
 
-    print(email, ssid, password)
+    print(ssid, password)
     valid_psk = check_cred(ssid, password)
     if not valid_psk:
         # User will not see this because they will be disconnected but we need to break here anyway
