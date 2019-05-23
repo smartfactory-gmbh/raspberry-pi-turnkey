@@ -161,7 +161,7 @@ def signin():
         f.write(json.dumps({'status':'disconnected'}))
     subprocess.Popen(["./disable_ap.sh"])
     piid = open('pi.id', 'r').read().strip()
-    return render_template('index.html', message="Please wait 2 minutes to connect. Then your IP address will show up at <a href='https://snaptext.live/{}'>snaptext.live/{}</a>.".format(piid,piid))
+    return render_template('index.html', message="Please wait 2 minutes to connect.")
 
 def wificonnected():
     result = subprocess.check_output(['iwconfig', 'wlan0'])
@@ -206,17 +206,6 @@ if __name__ == "__main__":
             f.write(wpa_conf_default)
         subprocess.Popen("./enable_ap.sh")
     elif s['status'] == 'connected':
-        piid = open('pi.id', 'r').read().strip()
-
-        # get ip address
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ipaddress = s.getsockname()[0]
-        s.close()
-
-        # alert user on snaptext
-        r = requests.post("https://snaptext.live",data=json.dumps({"message":"Your Pi is online at {}".format(ipaddress),"to":piid,"from":"Raspberry Pi Turnkey"}))
-        print(r.json())
         subprocess.Popen("./startup.sh")
         while True:
             time.sleep(60000)
