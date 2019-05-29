@@ -159,7 +159,7 @@ def signin():
         return render_template('ap.html', message="Wrong password!")
 
     with open('wpa.conf', 'w') as f:
-        f.write(wpa_conf % (ssid, pwd))
+        f.write(wpa_conf % (ssid, c))
     with open('status.json', 'w') as f:
         f.write(json.dumps({'status':'disconnected'}))
     subprocess.Popen(["./disable_ap.sh"])
@@ -176,7 +176,7 @@ def wificonnected():
 
 if __name__ == "__main__":
     # things to run the first time it boots
-    if not os.path.isfile('pi.id'):ke
+    if not os.path.isfile('pi.id'):
         with open('pi.id', 'w') as f:
             f.write(id_generator())
         subprocess.Popen("./expand_filesystem.sh")
