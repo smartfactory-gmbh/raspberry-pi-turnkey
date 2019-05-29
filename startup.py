@@ -21,6 +21,7 @@ def getssid():
     if len(ssid_list) > 0:
         return ssid_list
     ssid_list = []
+    return ssid_list
     get_ssid_list = subprocess.check_output(('iw', 'dev', 'wlan0', 'scan', 'ap-force'))
     ssids = get_ssid_list.splitlines()
     for s in ssids:
@@ -176,8 +177,7 @@ def wificonnected():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=80, threaded=True)
-    return
-    
+
     # things to run the first time it boots
     if not os.path.isfile('pi.id'):
         with open('pi.id', 'w') as f:
