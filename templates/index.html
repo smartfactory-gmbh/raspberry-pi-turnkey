@@ -14,20 +14,60 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/floating-labels.css" rel="stylesheet">
-
+  
+    <!-- jQuery -->
     <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript" src="keyboard.min.js"></script>
+  
+    <!-- keyboard widget css & script -->
+    <link href="static/keyboard-dark.min.css" rel="stylesheet">
+    <script src="static/jquery.keyboard.min.js"></script>
+
+    <script src="languages/de.min.js"></script>
+    <script src="languages/ms-Swiss-German.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="keyboard.min.css">
-    
+    <style type="text/css">
+      body {
+        width: 480px;
+        height: 320px;
+      }
+
+      /*
+        Make the Layout look good on 480x320 screen
+      */
+      .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) {
+        min-width: 4em;
+      }
+
+      .ui-keyboard {
+        max-width: 480px;
+      }
+
+      .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) span {
+        font-size: 1.2em;
+        position: static;
+        top: auto;
+        left: auto;
+      }
+
+    </style>
   </head>
 
   <body>
     <script type="text/javascript">
-        $(document).ready(function() {
-          $(document).keyboard({
-            language: 'swiss-german',
-          });
-        }); 
+      $(function() {
+        $.keyboard.keyaction.enter = function(base, el, e) {
+          // close the form and fill in the correct value
+          base.accept();
+        }
+
+        $('#inputPassword').keyboard({
+          language: ["de"],
+          layout: 'ms-Swiss German',
+
+        });
+      });
+        
     </script>
   
     <form class="form-signin" action="/signin" method="POST">
@@ -50,6 +90,6 @@
       </div>
 
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      <p class="mt-5 mb-3 text-muted text-center"><a href="https://github.com/schollz/raspberry-pi-turnkey">Raspberry Pi Turnkey</a></p>
+      <!--<p class="mt-5 mb-3 text-muted text-center"><a href="https://github.com/schollz/raspberry-pi-turnkey">Raspberry Pi Turnkey</a></p>-->
     </form>
   </body>

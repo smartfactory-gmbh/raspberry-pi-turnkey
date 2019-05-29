@@ -176,8 +176,6 @@ def wificonnected():
     return False
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, threaded=True)
-
     # things to run the first time it boots
     if not os.path.isfile('pi.id'):
         with open('pi.id', 'w') as f:
@@ -218,4 +216,3 @@ if __name__ == "__main__":
     else:
         subprocess.Popen("./startup_ap_enabled.sh")
         app.run(host="0.0.0.0", port=80, threaded=True)
-    
