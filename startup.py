@@ -139,6 +139,10 @@ def check_cred(ssid, password):
 def send_static(path):
     return send_from_directory('static', path)
 
+@app.route('/languages/<path:path>')
+def send_langauge(path):
+    return send_from_directory('languages', path)
+
 @app.route('/signin', methods=['POST'])
 def signin():
     ssid = request.form['ssid']
@@ -171,6 +175,9 @@ def wificonnected():
     return False
 
 if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80, threaded=True)
+    return
+    
     # things to run the first time it boots
     if not os.path.isfile('pi.id'):
         with open('pi.id', 'w') as f:

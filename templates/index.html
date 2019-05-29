@@ -14,9 +14,23 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/floating-labels.css" rel="stylesheet">
+
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="keyboard.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="keyboard.min.css">
+    
   </head>
 
   <body>
+    <script type="text/javascript">
+        $(document).ready(function<() {
+          $(document).keyboard({
+            language: 'swiss-german',
+            keyboardPosition: 'bottom'
+          });
+        }); 
+    </script>
+  
     <form class="form-signin" action="/signin" method="POST">
       <div class="text-center mb-4">
        <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
