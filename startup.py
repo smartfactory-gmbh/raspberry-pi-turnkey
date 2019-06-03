@@ -159,7 +159,7 @@ def signin():
         return render_template('ap.html', message="Wrong password!")
 
     with open('wpa.conf', 'w') as f:
-        f.write(wpa_conf % (ssid, c))
+        f.write(wpa_conf % (ssid, pwd))
     with open('status.json', 'w') as f:
         f.write(json.dumps({'status':'disconnected'}))
     subprocess.Popen(["./disable_ap.sh"])
