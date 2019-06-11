@@ -56,6 +56,8 @@ def signin():
     ssid = request.form["ssid"]
     password = request.form["password"]
     print(ssid, password)
+    
+    time.sleep(60000)
     return render_template("index.html", message="Please wait 2 minutes to connect.")
 
 

@@ -12,6 +12,8 @@
     <!-- Bootstrap core CSS -->
     <link href="/static/bootstrap.min.css" rel="stylesheet">
 
+    <link href="/static/spinner.css" rel="stylesheet">
+
     <!-- Custom styles for this template -->
     <link href="/static/floating-labels.css" rel="stylesheet">
   
@@ -121,6 +123,15 @@
       #ssid_hidden {
         display: none;
       }
+
+
+      #spinner {
+        display: none;
+      }
+
+      .active-item:before{
+        opacity: .3;
+      }
     </style>
   </head>
 
@@ -138,11 +149,16 @@
           initialFocus: false,
         })
 
+        $("#login").on("click", function() {
+          // display a loading icon
+          $("#spinner").show();
+        })
+
         // initialy, the password should be hidden
         $("#password").hide()
 
         // when pressing next, show the password view
-        $("#asd").on("click", function() {
+        $("#next").on("click", function() {
           $("#ssid").hide()
           $("#password").show()
         })
@@ -154,6 +170,11 @@
         })
 
         $(".mdc-list-item").on("click", function(e) {
+          $(".mdc-list-item").each(function(index) {
+            $(this).removeClass("active-item")
+          })
+
+          $(e.target).addClass("active-item");
           // this ensures that the server still has access to the selected ssid
           $("#ssid_hidden").val(e.target.innerText)
         })
@@ -180,7 +201,7 @@
           <input name="ssid" id="ssid_hidden" type="text" />
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" id="asd">Weiter</button>
+        <button class="btn btn-lg btn-primary btn-block" id="next">Weiter</button>
       </div>
 
       <div id="password">
@@ -190,8 +211,9 @@
         </div>
 
         <button class="btn btn-lg btn-primary btn-block" id="back">Zurück</button>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="login">Login</button>
       </div>
-      
     </form>
+    <!-- the divs are required -->
+    <div id="spinner" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
   </body>
