@@ -45,6 +45,13 @@
         max-width: 480px;
       }
 
+      .ui-keyboard {
+        position: fixed !important;
+      }
+
+      .ui-keyboard div {
+        font-size: 14px !important;
+      }
       .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) span {
         font-size: 1.2em;
         position: static;
@@ -124,13 +131,27 @@
         display: none;
       }
 
-
       #spinner {
         display: none;
       }
 
       .active-item:before{
         opacity: .3;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 80% 20%;
+      }
+
+      #up {
+        position: fixed;
+        top: 15px;
+      }
+
+      #down {
+        position: fixed;
+        bottom: 15px;
       }
     </style>
   </head>
@@ -147,6 +168,8 @@
           language: ["de"],
           layout: 'ms-Swiss German',
           initialFocus: false,
+          beforeClose: () => {
+          }
         })
 
         $("#login").on("click", function() {
@@ -161,12 +184,16 @@
         $("#next").on("click", function() {
           $("#ssid").hide()
           $("#password").show()
+          $("#button_container").hide()
+          $("#top_container").toggleClass("container")
         })
 
         // if the user wants to go back, let him
         $("#back").on("click", function() {
           $("#ssid").show()
           $("#password").hide()
+          $("#button_container").show()
+          $("#top_container").toggleClass("container")
         })
 
         $(".mdc-list-item").on("click", function(e) {
@@ -178,42 +205,55 @@
           // this ensures that the server still has access to the selected ssid
           $("#ssid_hidden").val(e.target.innerText)
         })
+
+        $("#up").on("click", function() {
+          window.scrollBy(0, -100);
+        })
+        $("#down").on("click", function() {
+          window.scrollBy(0, 100);
+        })
       })
         
     </script>
-  
-    <form class="form-signin" action="/signin" method="POST">
-      <div class="text-center mb-4">
-       <h1 class="h3 mb-3 font-weight-normal">Login</h1>
-      </div>
 
-      <div id="ssid"> 
-        <div class="form-group">
-          <label for="inputSSID">SSID</label>
-          <ul class="mdc-list" tabindex="0">
-            {% for s in ssids %}
-              <li class="mdc-list-item">
-                {{ s }}
-              </li>
-            {% endfor %}
-          </ul>
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3 font-weight-normal">Login</h1>
+    </div>  
+    <div id="top_container" class="container">
+      <form class="form-signin" action="/signin" method="POST">
+        <div id="ssid"> 
+          <div class="form-group">
+            <label for="inputSSID">SSID</label>
+            <ul class="mdc-list" tabindex="0">
+              {% for s in ssids %}
+                <li class="mdc-list-item">
+                  {{ s }}
+                </li>
+              {% endfor %}
+            </ul>
 
-          <input name="ssid" id="ssid_hidden" type="text" />
+            <input name="ssid" id="ssid_hidden" type="text" />
+          </div>
+
+          <button class="btn btn-lg btn-primary btn-block" id="next">Weiter</button>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" id="next">Weiter</button>
-      </div>
+        <div id="password">
+          <div class="form-label-group">
+            <input id="inputPassword" type="text" autocorrect="off" autocapitalize="none" pattern=".{0}|.{8,}" name="password" class="form-control" placeholder="SSID Password" required>
+            <label for="inputPassword">Password</label>
+          </div>
 
-      <div id="password">
-        <div class="form-label-group">
-          <input id="inputPassword" type="text" autocorrect="off" autocapitalize="none" pattern=".{0}|.{8,}" name="password" class="form-control" placeholder="SSID Password" required>
-          <label for="inputPassword">Password</label>
+          <button class="btn btn-lg btn-primary btn-block" id="back">Zurück</button>
+          <button class="btn btn-lg btn-primary btn-block" type="submit" id="login">Login</button>
         </div>
-
-        <button class="btn btn-lg btn-primary btn-block" id="back">Zurück</button>
-        <button class="btn btn-lg btn-primary btn-block" type="submit" id="login">Login</button>
+      </form>
+      <div id="button_container">
+        <button id="up" class="btn btn-lg">▲</button>
+        <button id="down" class="btn btn-lg">▼</button>
       </div>
-    </form>
+    </div>
     <!-- the divs are required -->
-    <div id="spinner" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div id="spinner" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
   </body>
+</html>
