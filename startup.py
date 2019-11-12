@@ -182,8 +182,7 @@ if __name__ == "__main__":
         subprocess.Popen("./expand_filesystem.sh")
         time.sleep(300)
     piid = open('pi.id', 'r').read().strip()
-    print(piid)
-    time.sleep(15)
+
     # get status
     s = {'status':'disconnected'}
     if not os.path.isfile('status.json'):
