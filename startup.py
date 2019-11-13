@@ -89,11 +89,6 @@ def applecaptive():
 def windowscaptive():
     return redirect("http://192.168.4.1", code=302)
 
-@app.route("/configure")
-def configure_via_iqube():
-    language = open(lang_file_path, 'r').read().strip()
-    return render_template("configure_via_pi.html", ssids=ssid_list, language=language)
-
 @app.route("/language", methods=["POST"])
 def setLanguage():
     lang = request.form["language"];
