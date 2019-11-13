@@ -256,4 +256,4 @@ if __name__ == "__main__":
             time.sleep(60000)
     else:
         subprocess.Popen("./startup_ap_enabled.sh")
-        app.run(host="0.0.0.0", port=80, threaded=True)
+        app.run(host="0.0.0.0", port=8080, threaded=True)
