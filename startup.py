@@ -9,11 +9,16 @@ import os
 import socket
 import requests
 
-from flask import Flask, request, send_from_directory, jsonify, render_template, redirect
+from pathlib import Path
+
+from flask import Flask, request, send_from_directory, jsonify, render_template, redirect, make_response
 app = Flask(__name__, static_url_path='')
 
 currentdir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(currentdir)
+
+lang_file_folder = str(Path.home()) + "/.config/iqube/"
+lang_file_path = lang_file_folder + "language.config"
 
 ssid_list = []
 def getssid():
@@ -52,10 +57,23 @@ update_config=1
 """
 
 
-
 @app.route('/')
 def main():
-    return render_template('index.html', ssids=getssid())
+    language = open(lang_file_path, 'r').read().strip()
+    return render_template('index.html', ssids=getssid(), language=language)
+
+@app.route("/iqube/<string:language>/<int:step>")
+def iqube(language, step):
+    return render_template(
+        "language.html", 
+        language=language,
+        step=step
+    )
+
+@app.route("/configure")
+def configure_via_iqube():
+    language = open(lang_file_path, 'r').read().strip()
+    return render_template("configure_via_pi.html", ssids=ssid_list, language=language)
 
 # Captive portal when connected with iOS or Android
 @app.route('/generate_204')
@@ -70,6 +88,23 @@ def applecaptive():
 @app.route('/ncsi.txt')
 def windowscaptive():
     return redirect("http://192.168.4.1", code=302)
+
+@app.route("/configure")
+def configure_via_iqube():
+    language = open(lang_file_path, 'r').read().strip()
+    return render_template("configure_via_pi.html", ssids=ssid_list, language=language)
+
+@app.route("/language", methods=["POST"])
+def setLanguage():
+    lang = request.form["language"];
+    
+    with open(lang_file_path, 'w') as f:
+        f.write(lang)
+
+    return make_response(
+        lang,
+        200
+    )
 
 def check_cred(ssid, password):
     '''Validates ssid and password and returns True if valid and False if not valid'''
@@ -181,6 +216,14 @@ if __name__ == "__main__":
             f.write(id_generator())
         subprocess.Popen("./expand_filesystem.sh")
         time.sleep(300)
+
+    # create language configuration if it does not exist yet
+    if not os.path.isfile(lang_file_path):
+        if not os.path.exists(lang_file_folder):
+            os.makedirs(lang_file_folder) # create folder if it does not exist yet
+        with open(lang_file_path, "w") as f: 
+            f.write("de") # put in default language
+
     piid = open('pi.id', 'r').read().strip()
 
     # get status

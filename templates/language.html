@@ -1,0 +1,218 @@
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Sign In</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/bootstrap.min.css" rel="stylesheet">
+
+    <link href="/static/spinner.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/floating-labels.css" rel="stylesheet">
+  
+    <!-- jQuery -->
+    <script type="text/javascript" src="/static/jquery.min.js"></script>
+
+    <style type="text/css">
+      body {
+        width: 480px;
+        display: block;
+      }
+
+      /*
+        Make the Layout look good on 480x320 screen
+      */
+      
+
+      .mdc-list {
+        // border: 1px solid rgba(0,0,0,.1);
+        outline: none;
+
+        font-family: Roboto,sans-serif;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-size: 1rem;
+        line-height: 1.75rem;
+        font-weight: 400;
+        letter-spacing: .009375em;
+        text-decoration: inherit;
+        text-transform: inherit;
+        line-height: 1.5rem;
+        margin: 0;
+        padding: 8px 0;
+        list-style-type: none;
+        color: rgba(0,0,0,.87);
+      }
+
+      <!-- recreate the google material list -->
+      .mdc-list li {
+        list-style: none;
+      }
+
+      .mdc-list-item {
+        display: -ms-flexbox;
+        display: flex;
+        position: relative;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        height: 48px;
+        padding: 0 16px;
+        overflow: hidden;
+      }
+
+      .mdc-list-item:hover:before {
+        opacity: .1;
+      }
+
+      .mdc-list-item:after,.mdc-list-item:before {
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+      }
+
+      .mdc-list-item:after, .mdc-list-item:before {
+        background-color: #000;
+      }
+
+      .mdc-list-item:before {
+        -webkit-transition: opacity 15ms linear,background-color 15ms linear;
+        -o-transition: opacity 15ms linear,background-color 15ms linear;
+        transition: opacity 15ms linear,background-color 15ms linear;
+        z-index: 1;
+      }
+
+      .mdc-list-item:after, .mdc-list-item:before {
+        position: absolute;
+        border-radius: 50%;
+        opacity: 0;
+        pointer-events: none;
+        content: "";
+      }
+
+      .active-item:before{
+        opacity: .3;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 80% 20%;
+      }
+
+      #connection_method, #language, #connect_to_iqube {
+          display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      $(function() {
+        switch ({{ step }}) {
+            case 1: 
+                $("#language").show();
+                break;
+            case 2:
+                $("#connection_method").show();
+                break;
+            case 3:
+                $("#connect_to_iqube").show();
+                break;
+            default:
+                $("#language").show();
+                break;
+        }
+
+        $("#language_select li").click(function() {
+            // save language and continue to "select connection method"
+            $.post(
+                "/language",
+                { language:  this.id}
+            ).done(function(data) {
+                console.log(data);
+                window.location.href = "/iqube/" + data + "/2"
+            });
+        });
+
+        $("#config_browser").click(function() {
+            window.location.href = "/iqube/{{ language }}/3"
+        });
+
+        $("#config_pi").click(function() {
+            window.location.href = "/configure";
+        });
+      })        
+      
+    </script>
+
+    <div class="text-center mb-4">
+      <h1 class="h3 mb-3 font-weight-normal">Select Language</h1>
+    </div>  
+    <div id="top_container" class="container">
+        <div id="language"> 
+            <div class="form-group">
+                <ul id="language_select" class="mdc-list" tabindex="0">
+                    <li class="mdc-list-item" id="de">
+                        Deutsch
+                    </li>
+                    <li class="mdc-list-item" id="fr">
+                        Français
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="connection_method">
+            <div class="form-group">
+                <p>
+                    {% if language == "fr" %}
+                        Configure Wlan via
+                    {% else %}
+                        Configure Wlan via
+                    {% endif %}
+                </p>
+                <ul id="wlan_configure_option" class="mdc-list" tabindex="0">
+                    <li class="mdc-list-item" id="config_browser">
+                        {% if language == "fr" %}
+                            Browser (Recommended) FR
+                        {% else %}
+                            Browser (Recommended) DE
+                        {% endif %}
+                    </li>
+                    <li class="mdc-list-item" id="config_pi">
+                        {% if language == "fr" %}
+                            Raspberry Pi FR
+                        {% else %}
+                            Raspberry Pi DE
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="connect_to_iqube">
+            {% if language == "fr" %}
+                <p>FR</p>
+                <p>Please connect to:</p>
+                <p>Wlan: iQube</p>
+                <p>Password: iqubeiqube</p>
+            {% else %}
+                <p>DE</p>
+                <p>Please connect to:</p>
+                <p>Wlan: iQube</p>
+                <p>Password: iqubeiqube</p>
+            {% endif %}
+
+        </div>
+    </div>
+  </body>
+</html>

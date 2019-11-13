@@ -5,4 +5,4 @@ cd /home/pi/iqube-web
 /usr/bin/npm install
 /usr/bin/node /home/pi/iqube-web/app.js &
 
-startx /home/pi/.xinitrc
+startx /home/pi/raspberry-pi-turnkey/xinitrc
