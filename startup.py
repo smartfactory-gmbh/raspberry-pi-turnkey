@@ -60,12 +60,12 @@ update_config=1
 @app.route('/')
 def main():
     language = open(lang_file_path, 'r').read().strip()
-    return render_template('index.html', ssids=getssid(), language=language)
+    return render_template('configure_via_browser.html', ssids=getssid(), language=language)
 
 @app.route("/iqube/<string:language>/<int:step>")
 def iqube(language, step):
     return render_template(
-        "language.html", 
+        "iqube_index.html", 
         language=language,
         step=step
     )
@@ -194,7 +194,7 @@ def signin():
         f.write(json.dumps({'status':'disconnected'}))
     subprocess.Popen(["./disable_ap.sh"])
     piid = open('pi.id', 'r').read().strip()
-    return render_template('index.html', message="Please wait 2 minutes to connect.")
+    return make_response(200)
 
 def wificonnected():
     result = subprocess.check_output(['iwconfig', 'wlan0'])

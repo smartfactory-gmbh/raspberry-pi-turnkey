@@ -45,12 +45,12 @@ ssid_list = [
 @app.route("/")
 def main():
     language = open(lang_file_path, 'r').read().strip()
-    return render_template("index.html", ssids=ssid_list, language=language)
+    return render_template("configure_via_browser.html", ssids=ssid_list, language=language)
 
 @app.route("/iqube/<string:language>/<int:step>")
 def iqube(language, step):
     return render_template(
-        "language.html", 
+        "iqube_index.html", 
         language=language,
         step=step
     )
@@ -89,7 +89,7 @@ def signin():
     print(ssid, password)
     
     time.sleep(60000)
-    return render_template("index.html", message="Please wait 2 minutes to connect.")
+    return make_response(200)
 
 
 if __name__ == "__main__":
