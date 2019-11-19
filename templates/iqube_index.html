@@ -1,7 +1,7 @@
-
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -13,65 +13,68 @@
 
     <!-- Custom styles for this template -->
     <link href="/static/custom.css" rel="stylesheet">
-  
+
     <!-- jQuery -->
     <script type="text/javascript" src="/static/jquery.min.js"></script>
 
     <style type="text/css">
-
-      header {
-        text-transform: none;
-      }
-
-      body {
-        width: 480px;
-        background: black;
-        display: block;
-      }
-
-      #top_container {
-        margin-right: 25px;
-        margin-left: 25px;
-      }
-
-      #connection_method, #language, #connect_to_iqube {
-          display: none;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-content: center;
-      }
-
-      .button-style {
-        width: 60%;
-        align-self: center;
-        margin-top: 15px;
-        font-size: 15px;
-      }
-
-      .back {
-        width: 40px;
-        height: auto;
-      }
-
-      .lock {
-        height: 50px;
-        margin-top: 35px;
-      }
+        header {
+            text-transform: none;
+        }
+        
+        body {
+            width: 480px;
+            background: black;
+            display: block;
+        }
+        
+        #top_container {
+            margin-right: 25px;
+            margin-left: 25px;
+        }
+        
+        #connection_method,
+        #language,
+        #connect_to_iqube {
+            display: none;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-content: center;
+        }
+        
+        .button-style {
+            width: 60%;
+            align-self: center;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+        
+        .back {
+            width: 40px;
+            height: auto;
+        }
+        
+        .lock {
+            height: 50px;
+            margin-top: 35px;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="top_container">
-    <header>
-      <img src="/img/back.png" class="back" onclick="goBack()"/>
-      <h1 class="avenir-black">Configuration</h1>
-      <img src="/img/vb-icon.png" />
-    </header>
-        <div id="language"> 
+        <header>
+            <img src="/img/back.png" class="back" />
+            <h1 class="avenir-black">Configuration</h1>
+            <img src="/img/vb-icon.png" />
+        </header>
+
+        <span onclick="goBack()" class="big-fat-button"></span>
+        <div id="language">
             <div class="container" id="language_select">
                 <button class="button-style" id="de">
                     Deutsch
@@ -79,94 +82,80 @@
                 <button class="button-style" id="fr">
                     Français
                 </button>
-              </div>
+            </div>
         </div>
 
         <div id="connection_method">
             <div>
                 <p class="avenir-light">
-                    {% if language == "fr" %}
-                        How would you like to conigure WLAN?
-                    {% else %}
-                        How would you like to conigure WLAN?
-                    {% endif %}
+                    {% if language == "fr" %} How would you like to conigure WLAN? {% else %} How would you like to conigure WLAN? {% endif %}
                 </p>
                 <div id="wlan_configure_option" class="container">
                     <button class="button-style" id="config_browser">
-                        {% if language == "fr" %}
-                            Browser (Recommended)
-                        {% else %}
-                            Browser (Recommended)
-                        {% endif %}
+                        {% if language == "fr" %} Browser (Recommended) {% else %} Browser (Recommended) {% endif %}
                     </button>
                     <button class="button-style" id="config_pi">
-                        {% if language == "fr" %}
-                            Raspberry Pi
-                        {% else %}
-                            Raspberry Pi
-                        {% endif %}
+                        {% if language == "fr" %} Raspberry Pi {% else %} Raspberry Pi {% endif %}
                     </button>
                 </div>
             </div>
         </div>
 
         <div id="connect_to_iqube" class="align-center">
-          <img src="/img/lock.png" class="lock" />
-            {% if language == "fr" %}
-                <p class="avenir-light">Please connect to "iQube" with the password:</p>
-                <p class="avenir-heavy">iqubeiqube</p>
+            <img src="/img/lock.png" class="lock" /> {% if language == "fr" %}
+            <p class="avenir-light">Please connect to "iQube" with the password:</p>
+            <p class="avenir-heavy">iqubeiqube</p>
             {% else %}
-                <p class="avenir-light">Please connect to "iQube" with the password:</p>
-                <p class="avenir-heavy">iqubeiqube</p>
+            <p class="avenir-light">Please connect to "iQube" with the password:</p>
+            <p class="avenir-heavy">iqubeiqube</p>
             {% endif %}
-
         </div>
     </div>
 
     <script type="text/javascript">
+        const step = {{ step }};
 
-      const step = {{ step }};
-
-      function goBack() {
-        window.history.back();        
-      }
-
-      $(function() {
-        switch (step) {
-            case 1: 
-                $("#language").show();
-                break;
-            case 2:
-                $("#connection_method").show();
-                break;
-            case 3:
-                $("#connect_to_iqube").show();
-                break;
-            default:
-                $("#language").show();
-                break;
+        function goBack() {
+            window.history.back();
         }
 
-        $("#language_select button").click(function() {
-            // save language and continue to "select connection method"
-            $.post(
-                "/language",
-                { language:  this.id}
-            ).done(function(data) {
-                console.log(data);
-                window.location.href = "/iqube/" + data + "/2"
+        $(function() {
+            switch (step) {
+                case 1:
+                    $("#language").show();
+                    break;
+                case 2:
+                    $("#connection_method").show();
+                    break;
+                case 3:
+                    $("#connect_to_iqube").show();
+                    break;
+                default:
+                    $("#language").show();
+                    break;
+            }
+
+            $("#language_select button").click(function() {
+                // save language and continue to "select connection method"
+                $.post(
+                    "/language", {
+                        language: this.id
+                    }
+                ).done(function(data) {
+                    console.log(data);
+                    window.location.href = "/iqube/" + data + "/2"
+                });
             });
-        });
 
-        $("#config_browser").click(function() {
-            window.location.href = "/iqube/{{ language }}/3"
-        });
+            $("#config_browser").click(function() {
+                window.location.href = "/iqube/{{ language }}/3"
+            });
 
-        $("#config_pi").click(function() {
-            window.location.href = "/configure";
-        });
-      })        
-      
+            $("#config_pi").click(function() {
+                window.location.href = "/configure";
+            });
+        })
     </script>
-  </body>
+</body>
+
 </html>

@@ -182,11 +182,10 @@ def signin():
     if password == "":
         pwd = "key_mgmt=NONE" # If open AP
 
-    print(ssid, password)
     valid_psk = check_cred(ssid, password)
     if not valid_psk:
         # User will not see this because they will be disconnected but we need to break here anyway
-        return render_template('ap.html', message="Wrong password!")
+        return make_response(400)
 
     with open('wpa.conf', 'w') as f:
         f.write(wpa_conf % (ssid, pwd))

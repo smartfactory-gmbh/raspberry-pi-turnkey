@@ -175,9 +175,10 @@
 </head>
 
 <body>
+    <span onclick="goBack()" class="big-fat-button"></span>
     <div id="container">
         <header>
-            <img src="/img/back.png" class="back" onclick="goBack()" />
+            <img src="/img/back.png" class="back" />
             <h1 class="avenir-black size-22">
                  {% if language == "fr "%}    
                     Configuration
@@ -195,7 +196,7 @@
                     Connect to a WiFi network
                 {% endif %}
             </p>
-            <form action="/signin" method="POST">
+            <form id="wlan-form">
                 <div id="ssid">
                     <ul class="list">
                         {% for s in ssids %}
@@ -226,7 +227,7 @@
                         {% endif %}
                     </button>
 
-                    <button class="button-style margin-top-25" type="submit" id="login">
+                    <button class="button-style margin-top-25" id="login">
                         {% if language == "fr "%}    
                             Configure
                         {% else %}
@@ -286,7 +287,22 @@
                 beforeClose: () => {}
             })
 
-            $("#login").on("click", function() {
+            $("#login").on("click", function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/signin",
+                    data: $("#wlan-form").serialize(),
+                    success: function() {
+                        // yay :)
+                        console.log("success")
+                    },
+                    error: function() {
+                        console.log("error")
+                    }
+                });
+
                 // display a loading icon
                 $("#spinner").show();
             })

@@ -104,6 +104,24 @@
                 // display a loading icon
                 $("#spinner").show();
             });
+
+            $("#submit").on("click", function(e) {
+              e.preventDefault();
+
+              $.ajax({
+                    type: "POST",
+                    url: "/signin",
+                    data: $("#form-signin").serialize(),
+                    success: function() {
+                        // yay :)
+                        console.log("success")
+                    },
+                    error: function() {
+                        console.log("error")
+                    }
+                });
+            });
+
         });
     </script>
 
@@ -125,7 +143,7 @@
                 {% else %}
                     Einstellungen
                 {% endif %}</h2>
-            <form id="form-signin" class="form-signin" action="/signin" method="POST">
+            <form id="form-signin" class="form-signin">
                 <div>
                     <label for="ssid" class="avenir-black">
                       {% if language == "fr" %}
@@ -161,7 +179,7 @@
                     <input id="inputPassword" type="password" autocorrect="off" autocapitalize="none" pattern=".{0}|.{8,}" name="password" placeholder="{% if language == "fr" %}mot de passe{% else %}Passwort{% endif %}" required>
                 </div>
 
-                <button class="button-style margin-top-25" type="submit">
+                <button class="button-style margin-top-25" id="submit">
                   {% if language == "fr" %}
                       Plus
                   {% else %}
