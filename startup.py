@@ -17,7 +17,7 @@ app = Flask(__name__, static_url_path='')
 currentdir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(currentdir)
 
-lang_file_folder = str(Path.home()) + "/.config/iqube/"
+lang_file_folder = "/home/pi/.config/iqube/"
 lang_file_path = lang_file_folder + "language.config"
 
 ssid_list = []
