@@ -62,8 +62,8 @@
         }
 
         .ui-keyboard-button {
-            height: 4em;
-            width: 2.7em;
+            height: 40px;
+            width: 27px;
             line-height: 3em;
         }
         
@@ -317,10 +317,12 @@
                 $("#password").show();
             })
 
-            $("#up").on("click", function() {
+            $("#up").on("click", function(e) {
+                e.preventDefault();
                 window.scrollBy(0, -50);
             })
-            $("#down").on("click", function() {
+            $("#down").on("click", function(e) {
+                e.preventDefault()
                 window.scrollBy(0, 50);
             })
         })
