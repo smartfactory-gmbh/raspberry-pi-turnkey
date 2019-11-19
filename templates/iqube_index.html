@@ -9,115 +9,130 @@
 
     <title>Sign In</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/bootstrap.min.css" rel="stylesheet">
-
     <link href="/static/spinner.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/static/floating-labels.css" rel="stylesheet">
+    <link href="/static/custom.css" rel="stylesheet">
   
     <!-- jQuery -->
     <script type="text/javascript" src="/static/jquery.min.js"></script>
 
     <style type="text/css">
+
+      header {
+        text-transform: none;
+      }
+
       body {
         width: 480px;
+        background: black;
         display: block;
       }
 
-      /*
-        Make the Layout look good on 480x320 screen
-      */
-      
-
-      .mdc-list {
-        // border: 1px solid rgba(0,0,0,.1);
-        outline: none;
-
-        font-family: Roboto,sans-serif;
-        -moz-osx-font-smoothing: grayscale;
-        -webkit-font-smoothing: antialiased;
-        font-size: 1rem;
-        line-height: 1.75rem;
-        font-weight: 400;
-        letter-spacing: .009375em;
-        text-decoration: inherit;
-        text-transform: inherit;
-        line-height: 1.5rem;
-        margin: 0;
-        padding: 8px 0;
-        list-style-type: none;
-        color: rgba(0,0,0,.87);
-      }
-
-      <!-- recreate the google material list -->
-      .mdc-list li {
-        list-style: none;
-      }
-
-      .mdc-list-item {
-        display: -ms-flexbox;
-        display: flex;
-        position: relative;
-        -ms-flex-align: center;
-        align-items: center;
-        -ms-flex-pack: start;
-        justify-content: flex-start;
-        height: 48px;
-        padding: 0 16px;
-        overflow: hidden;
-      }
-
-      .mdc-list-item:hover:before {
-        opacity: .1;
-      }
-
-      .mdc-list-item:after,.mdc-list-item:before {
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-      }
-
-      .mdc-list-item:after, .mdc-list-item:before {
-        background-color: #000;
-      }
-
-      .mdc-list-item:before {
-        -webkit-transition: opacity 15ms linear,background-color 15ms linear;
-        -o-transition: opacity 15ms linear,background-color 15ms linear;
-        transition: opacity 15ms linear,background-color 15ms linear;
-        z-index: 1;
-      }
-
-      .mdc-list-item:after, .mdc-list-item:before {
-        position: absolute;
-        border-radius: 50%;
-        opacity: 0;
-        pointer-events: none;
-        content: "";
-      }
-
-      .active-item:before{
-        opacity: .3;
-      }
-
-      .container {
-        display: grid;
-        grid-template-columns: 80% 20%;
+      #top_container {
+        margin-right: 25px;
+        margin-left: 25px;
       }
 
       #connection_method, #language, #connect_to_iqube {
           display: none;
       }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+      }
+
+      .button-style {
+        width: 60%;
+        align-self: center;
+        margin-top: 15px;
+        font-size: 15px;
+      }
+
+      .back {
+        width: 40px;
+        height: auto;
+      }
+
+      .lock {
+        height: 50px;
+        margin-top: 35px;
+      }
     </style>
   </head>
 
   <body>
+    <div id="top_container">
+    <header>
+      <img src="/img/back.png" class="back" onclick="goBack()"/>
+      <h1 class="avenir-black">Configuration</h1>
+      <img src="/img/vb-icon.png" />
+    </header>
+        <div id="language"> 
+            <div class="container" id="language_select">
+                <button class="button-style" id="de">
+                    Deutsch
+                </button>
+                <button class="button-style" id="fr">
+                    Français
+                </button>
+              </div>
+        </div>
+
+        <div id="connection_method">
+            <div>
+                <p class="avenir-light">
+                    {% if language == "fr" %}
+                        How would you like to conigure WLAN?
+                    {% else %}
+                        How would you like to conigure WLAN?
+                    {% endif %}
+                </p>
+                <div id="wlan_configure_option" class="container">
+                    <button class="button-style" id="config_browser">
+                        {% if language == "fr" %}
+                            Browser (Recommended)
+                        {% else %}
+                            Browser (Recommended)
+                        {% endif %}
+                    </button>
+                    <button class="button-style" id="config_pi">
+                        {% if language == "fr" %}
+                            Raspberry Pi
+                        {% else %}
+                            Raspberry Pi
+                        {% endif %}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="connect_to_iqube" class="align-center">
+          <img src="/img/lock.png" class="lock" />
+            {% if language == "fr" %}
+                <p class="avenir-light">Please connect to "iQube" with the password:</p>
+                <p class="avenir-heavy">iqubeiqube</p>
+            {% else %}
+                <p class="avenir-light">Please connect to "iQube" with the password:</p>
+                <p class="avenir-heavy">iqubeiqube</p>
+            {% endif %}
+
+        </div>
+    </div>
+
     <script type="text/javascript">
+
+      const step = {{ step }};
+
+      function goBack() {
+        window.history.back();        
+      }
+
       $(function() {
-        switch ({{ step }}) {
+        switch (step) {
             case 1: 
                 $("#language").show();
                 break;
@@ -132,7 +147,7 @@
                 break;
         }
 
-        $("#language_select li").click(function() {
+        $("#language_select button").click(function() {
             // save language and continue to "select connection method"
             $.post(
                 "/language",
@@ -153,66 +168,5 @@
       })        
       
     </script>
-
-    <div class="text-center mb-4">
-      <h1 class="h3 mb-3 font-weight-normal">Select Language</h1>
-    </div>  
-    <div id="top_container" class="container">
-        <div id="language"> 
-            <div class="form-group">
-                <ul id="language_select" class="mdc-list" tabindex="0">
-                    <li class="mdc-list-item" id="de">
-                        Deutsch
-                    </li>
-                    <li class="mdc-list-item" id="fr">
-                        Français
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="connection_method">
-            <div class="form-group">
-                <p>
-                    {% if language == "fr" %}
-                        Configure Wlan via
-                    {% else %}
-                        Configure Wlan via
-                    {% endif %}
-                </p>
-                <ul id="wlan_configure_option" class="mdc-list" tabindex="0">
-                    <li class="mdc-list-item" id="config_browser">
-                        {% if language == "fr" %}
-                            Browser (Recommended) FR
-                        {% else %}
-                            Browser (Recommended) DE
-                        {% endif %}
-                    </li>
-                    <li class="mdc-list-item" id="config_pi">
-                        {% if language == "fr" %}
-                            Raspberry Pi FR
-                        {% else %}
-                            Raspberry Pi DE
-                        {% endif %}
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="connect_to_iqube">
-            {% if language == "fr" %}
-                <p>FR</p>
-                <p>Please connect to:</p>
-                <p>Wlan: iQube</p>
-                <p>Password: iqubeiqube</p>
-            {% else %}
-                <p>DE</p>
-                <p>Please connect to:</p>
-                <p>Wlan: iQube</p>
-                <p>Password: iqubeiqube</p>
-            {% endif %}
-
-        </div>
-    </div>
   </body>
 </html>

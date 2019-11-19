@@ -1,0 +1,108 @@
+:root {
+    --input-padding-x: 0.75rem;
+    --input-padding-y: 0.75rem;
+}
+
+@font-face {
+    font-family: 'Avenir Black';
+    src: url('/static/Avenir-Black.woff2') format('woff2'), url('/static/Avenir-Black.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir Heavy';
+    src: url('/static/Avenir-Heavy.woff2') format('woff2'), url('/static/Avenir-Heavy.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir Book';
+    src: url('/static/Avenir-Book.woff2') format('woff2'), url('/static/Avenir-Book.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Avenir Light';
+    src: url('/static/Avenir-Light.woff2') format('woff2'), url('/static/Avenir-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+
+.avenir-black {
+    font-family: 'Avenir Black', Arial, Helvetica, sans-serif;
+}
+
+.avenir-light {
+    font-family: 'Avenir Light', Arial, Helvetica, sans-serif;
+}
+
+.avenir-book {
+    font-family: 'Avenir Book', Arial, Helvetica, sans-serif;
+}
+
+.avenir-heavy {
+    font-family: 'Avenir Heavy', Arial, Helvetica, sans-serif;
+}
+
+.size-22 {
+    font-size: 22px;
+}
+
+html,
+body {
+    height: 100%;
+    color: white;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    font-family: 'Avenir Light', Arial, Helvetica, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+}
+
+header img {
+    height: 44px;
+}
+
+.header-title {
+    font-size: 15px;
+    text-align: center;
+}
+
+.button-style {
+    border-radius: 10px;
+    border: 2px solid white;
+    padding: 15px;
+    text-transform: uppercase;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+    font-family: 'Avenir Light', Arial, Helvetica, sans-serif;
+}
+
+.button-style:hover,
+.button-style:active {
+    background-color: white;
+    color: black;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
