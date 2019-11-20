@@ -85,8 +85,12 @@
           list-style: none;
           padding: 0;
           overflow: scroll;
-          width: 92%;
+          width: 87%;
           margin: 0;
+        }
+
+        ::-webkit-scrollbar {
+            display: none; /* Hide webkit scrollbar on chrome, doesn't matter for other browsers */
         }
 
         .list-item {
@@ -116,13 +120,13 @@
 
         #down {
           position: fixed;
-          right: 15px;
+          right: 25px;
           bottom: 15px;
         }
 
         #up {
           position: fixed;
-          right: 15px;
+          right: 25px;
           bottom: 135px;
         }
 
