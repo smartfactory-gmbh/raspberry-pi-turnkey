@@ -108,6 +108,8 @@
             $("#submit").on("click", function(e) {
               e.preventDefault();
 
+              $("#spinner").show();
+
               $.ajax({
                     type: "POST",
                     url: "/signin",
