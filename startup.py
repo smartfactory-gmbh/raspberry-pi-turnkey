@@ -9,11 +9,16 @@ import os
 import socket
 import requests
 
-from flask import Flask, request, send_from_directory, jsonify, render_template, redirect
+from pathlib import Path
+
+from flask import Flask, request, send_from_directory, jsonify, render_template, redirect, make_response
 app = Flask(__name__, static_url_path='')
 
 currentdir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(currentdir)
+
+lang_file_folder = "/home/pi/.config/iqube/"
+lang_file_path = lang_file_folder + "language.config"
 
 ssid_list = []
 def getssid():
@@ -52,10 +57,23 @@ update_config=1
 """
 
 
-
 @app.route('/')
 def main():
-    return render_template('index.html', ssids=getssid())
+    language = open(lang_file_path, 'r').read().strip()
+    return render_template('configure_via_browser.html', ssids=getssid(), language=language)
+
+@app.route("/iqube/<string:language>/<int:step>")
+def iqube(language, step):
+    return render_template(
+        "iqube_index.html", 
+        language=language,
+        step=step
+    )
+
+@app.route("/configure")
+def configure_via_iqube():
+    language = open(lang_file_path, 'r').read().strip()
+    return render_template("configure_via_pi.html", ssids=ssid_list, language=language)
 
 # Captive portal when connected with iOS or Android
 @app.route('/generate_204')
@@ -70,6 +88,18 @@ def applecaptive():
 @app.route('/ncsi.txt')
 def windowscaptive():
     return redirect("http://192.168.4.1", code=302)
+
+@app.route("/language", methods=["POST"])
+def setLanguage():
+    lang = request.form["language"];
+    
+    with open(lang_file_path, 'w') as f:
+        f.write(lang)
+
+    return make_response(
+        lang,
+        200
+    )
 
 def check_cred(ssid, password):
     '''Validates ssid and password and returns True if valid and False if not valid'''
@@ -152,11 +182,10 @@ def signin():
     if password == "":
         pwd = "key_mgmt=NONE" # If open AP
 
-    print(ssid, password)
     valid_psk = check_cred(ssid, password)
     if not valid_psk:
         # User will not see this because they will be disconnected but we need to break here anyway
-        return render_template('ap.html', message="Wrong password!")
+        return make_response(400)
 
     with open('wpa.conf', 'w') as f:
         f.write(wpa_conf % (ssid, pwd))
@@ -164,7 +193,7 @@ def signin():
         f.write(json.dumps({'status':'disconnected'}))
     subprocess.Popen(["./disable_ap.sh"])
     piid = open('pi.id', 'r').read().strip()
-    return render_template('index.html', message="Please wait 2 minutes to connect.")
+    return make_response(200)
 
 def wificonnected():
     result = subprocess.check_output(['iwconfig', 'wlan0'])
@@ -181,9 +210,16 @@ if __name__ == "__main__":
             f.write(id_generator())
         subprocess.Popen("./expand_filesystem.sh")
         time.sleep(300)
+
+    # create language configuration if it does not exist yet
+    if not os.path.isfile(lang_file_path):
+        if not os.path.exists(lang_file_folder):
+            os.makedirs(lang_file_folder) # create folder if it does not exist yet
+        with open(lang_file_path, "w") as f: 
+            f.write("de") # put in default language
+
     piid = open('pi.id', 'r').read().strip()
-    print(piid)
-    time.sleep(15)
+
     # get status
     s = {'status':'disconnected'}
     if not os.path.isfile('status.json'):

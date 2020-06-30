@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>configure</title>
+
+    <link href="/static/spinner.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/custom.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="jquery.min.js"></script>
+
+    <!-- keyboard widget css & script -->
+    <link href="static/keyboard-dark.min.css" rel="stylesheet">
+    <script src="static/jquery.keyboard.min.js"></script>
+
+    <script src="languages/de.min.js"></script>
+    <script src="languages/ms-Swiss-German.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="keyboard.min.css">
+    <style type="text/css">
+        body {
+            width: 480px;
+            display: block;
+            overflow: hidden;
+        }
+        
+        .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) {
+            min-width: 5em;
+        }
+        
+        .ui-keyboard {
+            max-width: 480px;
+        }
+        
+        .ui-keyboard {
+            position: fixed !important;
+            padding: 0;
+            margin-right: 15px;
+        }
+        
+        .ui-keyboard div {
+            font-size: 15px !important;
+        }
+
+        .ui-keyboard-preview-wrapper {
+            padding: 0.3em;
+            margin-right: 15px;
+        }
+        
+        .ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) span {
+            font-size: 1.4em;
+            position: static;
+            top: auto;
+            left: auto;
+        }
+
+        .ui-keyboard-button {
+            height: 40px;
+            width: 27px;
+            line-height: 3em;
+        }
+        
+        #ssid_hidden {
+            display: none;
+        }
+        
+        #spinner {
+            display: none;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 80% 20%;
+        }
+
+        .list {
+          list-style: none;
+          padding: 0;
+          overflow: scroll;
+          width: 87%;
+          margin: 0;
+        }
+
+        ::-webkit-scrollbar {
+            display: none; /* Hide webkit scrollbar on chrome, doesn't matter for other browsers */
+        }
+
+        .list-item {
+          border-bottom: 2px solid white;
+          padding: 10px 0;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+
+        .list-item:hover, .list-item:active {
+            background-color: grey;
+        }
+
+        #container {
+          margin-right: 15px;
+          margin-left: 15px;
+        }
+
+        header h1 {
+          text-transform: uppercase;
+        }
+
+        #ssid {
+          display: flex;
+          flex-direction: row;
+        }
+
+        #down {
+          position: fixed;
+          right: 25px;
+          bottom: 15px;
+        }
+
+        #up {
+          position: fixed;
+          right: 25px;
+          bottom: 135px;
+        }
+
+        .button-style {
+          padding: 5px;
+          border-radius: 1px;
+        }
+
+        .full-width-input {
+            width: 100%;
+        }
+
+        .pw-input {
+            border: none;
+            border-bottom: 2px solid white;
+            background-color: black;
+            color: white;
+            padding-top: 5px;
+            padding-bottom: 10px;
+            font-family: 'Avenir Light', Arial, Helvetica, sans-serif;
+            font-size: 15pt;
+        }
+
+        #password {
+            margin-right: 15px;
+        }
+
+        input:required {
+            box-shadow:none;
+        }
+
+        header img {
+            width: auto;
+            height: 35px;
+        }
+
+        .back {
+            width: 40px;
+            height: auto;
+        }
+
+        .icon-wifi {
+            height: 15px;
+            margin-right: 15px;
+        }
+
+        .button-style {
+            font-size: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <span onclick="goBack()" class="big-fat-button"></span>
+    <div id="container">
+        <header>
+            <img src="/img/back.png" class="back" />
+            <h1 class="avenir-black size-22">
+                 {% if language == "fr "%}    
+                    Configuration
+                {% else %}
+                    Configuration
+                {% endif %}
+            </h1>
+            <img src="/img/vb-icon.png" />
+        </header>
+        <div id="top_container">
+            <p class="avenir-light">
+                {% if language == "fr "%}    
+                    Connect to a WiFi network
+                {% else %}
+                    Connect to a WiFi network
+                {% endif %}
+            </p>
+            <form id="wlan-form">
+                <div id="ssid">
+                    <ul class="list">
+                        {% for s in ssids %}
+                        <li class="list-item avenir-book">
+                            <img src="/static/img/wifi.png" class="icon-wifi" /> {{ s }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    
+                    <div class="button_container">
+                        <button id="up" class="button-style">▲</button>
+                        <button id="down" class="button-style">▼</button>
+                    </div>
+                </div>
+
+                <input name="ssid" id="ssid_hidden" type="text" />
+
+                <div id="password">
+                    <div>
+                        <input id="inputPassword" type="password" autocorrect="off" autocapitalize="none" name="password" class="full-width-input pw-input" placeholder="Password">
+                    </div>
+
+                    <button class="button-style margin-top-25" id="showPw">
+                        {% if language == "fr "%}    
+                            toggle password
+                        {% else %}
+                            toggle password
+                        {% endif %}
+                    </button>
+
+                    <button class="button-style margin-top-25" id="login">
+                        {% if language == "fr "%}    
+                            Configure
+                        {% else %}
+                            Configure
+                        {% endif %}
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- the divs are required -->
+        <div id="spinner" class="lds-spinner">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function goBack() {
+            if ($("#ssid").is(":visible")) {
+                window.history.back();
+            } else {
+                $("#ssid").show()
+                $("#password").hide()
+            }
+        }
+
+        $(function() {
+            $.keyboard.keyaction.enter = function(base, el, e) {
+                // close the form and fill in the correct value
+                base.accept();
+            }
+
+            $("#showPw").on("click", function(e) {
+                e.preventDefault();
+                var element = document.getElementById("inputPassword");
+                if (element.type === "text") {
+                    element.type = "password";
+                } else {
+                    element.type = "text";
+                }
+            });
+
+            $('#inputPassword').keyboard({
+                language: ["de"],
+                layout: 'ms-Swiss German',
+                initialFocus: false,
+                beforeClose: () => {}
+            })
+
+            $("#login").on("click", function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/signin",
+                    data: $("#wlan-form").serialize(),
+                    success: function() {
+                        // yay :)
+                        console.log("success")
+                    },
+                    error: function() {
+                        console.log("error")
+                    }
+                });
+
+                // display a loading icon
+                $("#spinner").show();
+            })
+
+            // initialy, the password should be hidden
+            $("#password").hide()
+
+            $(".list-item").on("click", function(e) {
+                // this ensures that the server still has access to the selected ssid
+                $("#ssid_hidden").val(e.target.innerText);
+                $("#ssid").hide();
+                $("#password").show();
+            })
+
+            $("#up").on("click", function(e) {
+                e.preventDefault();
+                window.scrollBy(0, -50);
+            })
+            $("#down").on("click", function(e) {
+                e.preventDefault()
+                window.scrollBy(0, 50);
+            })
+        })
+    </script>
+</body>
+
+</html>
