@@ -185,6 +185,8 @@ def signin():
     valid_psk = check_cred(ssid, password)
     if not valid_psk:
         # User will not see this because they will be disconnected but we need to break here anyway
+        # also restart because the user cannot properly connect to the access point again.
+        subprocess.Popen(["./reboot.sh"])
         return make_response(400)
 
     with open('wpa.conf', 'w') as f:
