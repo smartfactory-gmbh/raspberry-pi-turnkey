@@ -92,7 +92,7 @@
                 </p>
                 <div id="wlan_configure_option" class="container">
                     <button class="button-style" id="config_browser">
-                        {% if language == "fr" %} Navigateur (recommandé) {% else %} Browser (empfohlen) {% endif %}
+                        {% if language == "fr" %} Smartphone (recommandé) {% else %} Smartphone (empfohlen) {% endif %}
                     </button>
                     <button class="button-style" id="config_pi">
                         {% if language == "fr" %} iQube {% else %} iQube {% endif %}
@@ -103,10 +103,10 @@
 
         <div id="connect_to_iqube" class="align-center">
             <img src="/img/lock.png" class="lock" /> {% if language == "fr" %}
-            <p class="avenir-light">Veuillez connecter votre smartphone au WiFi "iQube". Le mot de passe est :</p>
+            <p class="avenir-light">Veuillez connecter votre smartphone au réseau WiFi "iQube". Le mot de passe est :</p>
             <p class="avenir-heavy">iqubeiqube</p>
             {% else %}
-            <p class="avenir-light">Bitte verbinden Sie Ihr Smartphone mit dem WiFi "iQube". Das Passwort lautet:</p>
+            <p class="avenir-light">Bitte verbinden Sie Ihr Smartphone mit dem WiFi-Netzwerk "iQube". Das Passwort lautet:</p>
             <p class="avenir-heavy">iqubeiqube</p>
             {% endif %}
         </div>
@@ -148,14 +148,11 @@
             });
 
             $("#config_browser").click(function() {
-                // window.location.href = "/iqube/{{ language }}/3"
-                // I think this was the wrong way around
-                window.location.href = "/configure";
+                window.location.href = "/iqube/{{ language }}/3"
             });
 
             $("#config_pi").click(function() {
-                // window.location.href = "/configure";
-                window.location.href = "/iqube/{{ language }}/3"
+                window.location.href = "/configure";
             });
         })
     </script>
