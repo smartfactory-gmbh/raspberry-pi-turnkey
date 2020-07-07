@@ -69,7 +69,7 @@
     <div id="top_container">
         <header>
             <img src="/img/back.png" class="back" />
-            <h1 class="avenir-black">Configuration</h1>
+            <h1 class="avenir-black">VB-TPB iQube</h1>
             <img src="/img/vb-icon.png" />
         </header>
 
@@ -148,11 +148,14 @@
             });
 
             $("#config_browser").click(function() {
-                window.location.href = "/iqube/{{ language }}/3"
+                // window.location.href = "/iqube/{{ language }}/3"
+                // I think this was the wrong way around
+                window.location.href = "/configure";
             });
 
             $("#config_pi").click(function() {
-                window.location.href = "/configure";
+                // window.location.href = "/configure";
+                window.location.href = "/iqube/{{ language }}/3"
             });
         })
     </script>
