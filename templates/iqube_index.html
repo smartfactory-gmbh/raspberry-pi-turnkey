@@ -69,7 +69,7 @@
     <div id="top_container">
         <header>
             <img src="/img/back.png" class="back" />
-            <h1 class="avenir-black">Configuration</h1>
+            <h1 class="avenir-black">VB-TPB iQube</h1>
             <img src="/img/vb-icon.png" />
         </header>
 
@@ -88,14 +88,14 @@
         <div id="connection_method">
             <div>
                 <p class="avenir-light">
-                    {% if language == "fr" %} Comment souhaitez-vous configurer le WLAN? {% else %} Wie möchten Sie das WLAN konfigurieren {% endif %}
+                    {% if language == "fr" %} Comment voulez-vous configurer votre WiFi ? {% else %} Wie möchten Sie Ihr WiFi konfigurieren? {% endif %}
                 </p>
                 <div id="wlan_configure_option" class="container">
                     <button class="button-style" id="config_browser">
-                        {% if language == "fr" %} Navigateur (recommandé) {% else %} Browser (empfohlen) {% endif %}
+                        {% if language == "fr" %} Smartphone (recommandé) {% else %} Smartphone (empfohlen) {% endif %}
                     </button>
                     <button class="button-style" id="config_pi">
-                        {% if language == "fr" %} Raspberry Pi {% else %} Raspberry Pi {% endif %}
+                        {% if language == "fr" %} iQube {% else %} iQube {% endif %}
                     </button>
                 </div>
             </div>
@@ -103,10 +103,10 @@
 
         <div id="connect_to_iqube" class="align-center">
             <img src="/img/lock.png" class="lock" /> {% if language == "fr" %}
-            <p class="avenir-light">Veuillez vous connecter à «iQube» avec le mot de passe:</p>
+            <p class="avenir-light">Veuillez connecter votre smartphone au réseau WiFi "iQube". Le mot de passe est :</p>
             <p class="avenir-heavy">iqubeiqube</p>
             {% else %}
-            <p class="avenir-light">Bitte verbinden Sie sich mit "iQube" mit dem Passwort:</p>
+            <p class="avenir-light">Bitte verbinden Sie Ihr Smartphone mit dem WiFi-Netzwerk "iQube". Das Passwort lautet:</p>
             <p class="avenir-heavy">iqubeiqube</p>
             {% endif %}
         </div>
