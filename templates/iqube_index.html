@@ -88,11 +88,11 @@
         <div id="connection_method">
             <div>
                 <p class="avenir-light">
-                    {% if language == "fr" %} How would you like to configure WLAN? {% else %} How would you like to configure WLAN? {% endif %}
+                    {% if language == "fr" %} Comment souhaitez-vous configurer le WLAN? {% else %} Wie möchten Sie das WLAN konfigurieren {% endif %}
                 </p>
                 <div id="wlan_configure_option" class="container">
                     <button class="button-style" id="config_browser">
-                        {% if language == "fr" %} Browser (Recommended) {% else %} Browser (Recommended) {% endif %}
+                        {% if language == "fr" %} Navigateur (recommandé) {% else %} Browser (empfohlen) {% endif %}
                     </button>
                     <button class="button-style" id="config_pi">
                         {% if language == "fr" %} Raspberry Pi {% else %} Raspberry Pi {% endif %}
@@ -103,10 +103,10 @@
 
         <div id="connect_to_iqube" class="align-center">
             <img src="/img/lock.png" class="lock" /> {% if language == "fr" %}
-            <p class="avenir-light">Please connect to "iQube" with the password:</p>
+            <p class="avenir-light">Veuillez vous connecter à «iQube» avec le mot de passe:</p>
             <p class="avenir-heavy">iqubeiqube</p>
             {% else %}
-            <p class="avenir-light">Please connect to "iQube" with the password:</p>
+            <p class="avenir-light">Bitte verbinden Sie sich mit "iQube" mit dem Passwort:</p>
             <p class="avenir-heavy">iqubeiqube</p>
             {% endif %}
         </div>
